@@ -6,10 +6,8 @@ import {DecentralizedProtocol} from "../src/DecentralizedProtocol.sol";
 import {StableCoin} from "../src/StableCoin.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
 
-
-contract DeployDC is Script{
-
-    function run() external returns(StableCoin, DecentralizedProtocol) {
+contract DeployDC is Script {
+    function run() external returns (StableCoin, DecentralizedProtocol) {
         HelperConfig helperConfig = new HelperConfig();
         HelperConfig.networkConfig memory config = helperConfig.getConfig();
 
@@ -23,12 +21,9 @@ contract DeployDC is Script{
 
         vm.startBroadcast(config.deployerKey);
         StableCoin stableCoin = new StableCoin();
-        DecentralizedProtocol decentralizedProtocol = new DecentralizedProtocol(
-            tokenAddresses,
-            priceFeedAddresses,
-            address(stableCoin)
-        );
-        
+        DecentralizedProtocol decentralizedProtocol =
+            new DecentralizedProtocol(tokenAddresses, priceFeedAddresses, address(stableCoin));
+
         // Transfer ownership of stablecoin to the protocol
         stableCoin.transferOwnership(address(decentralizedProtocol));
         vm.stopBroadcast();

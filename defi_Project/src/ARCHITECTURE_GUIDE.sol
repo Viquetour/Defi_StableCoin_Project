@@ -135,7 +135,7 @@ Formula: USD_Value = (Price × PRICE_FEED_PRECISION × Amount) / SC_PRECISION
 Example:
   ETH Price = 2000e8 (Chainlink returns prices with 8 decimals)
   Amount = 1e18 (1 ETH in wei)
-  
+
   USD_Value = (2000e8 × 1e10 × 1e18) / 1e18
             = 2000e8 × 1e10
             = 2000 × 1e18

@@ -18,37 +18,32 @@ This is the contract meant to be governed by SCEngine. This contract is just the
 import {ERC20Burnable, ERC20} from "@openzeppelin/token/ERC20/extensions/ERC20Burnable.sol";
 import {Ownable} from "@openzeppelin/access/Ownable.sol";
 
-
-
-contract StableCoin is ERC20Burnable,Ownable{
-
+contract StableCoin is ERC20Burnable, Ownable {
     //errors
     error StableCoin__MustNotBeZero();
     error StableCoin__BurnAmountExceedsBalance();
     error StableCoin__MustNotBeZeroAddress();
-    error StableCoin__InvalidInput();
 
     constructor() ERC20("StableCoin", "STC") Ownable(msg.sender) {}
 
-
     function burn(uint256 _amount) public override onlyOwner {
         uint256 balance = balanceOf(msg.sender);
-        if (_amount <= 0){
+        if (_amount == 0) {
             revert StableCoin__MustNotBeZero();
         }
-        if (_amount > balance){
+        if (_amount > balance) {
             revert StableCoin__BurnAmountExceedsBalance();
         }
         super.burn(_amount);
     }
 
-
-    function mint(address _to, uint256 _amount) external onlyOwner{
-      if(_to == address(0) || _amount <= 0 || _amount > type(uint256).max)  {
-        revert StableCoin__InvalidInput();
-      }
-      _mint(_to, _amount);
+    function mint(address _to, uint256 _amount) external onlyOwner {
+        if (_to == address(0)) {
+            revert StableCoin__MustNotBeZeroAddress();
+        }
+        if (_amount == 0) {
+            revert StableCoin__MustNotBeZero();
+        }
+        _mint(_to, _amount);
     }
-
-
 }
